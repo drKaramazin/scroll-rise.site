@@ -31,8 +31,8 @@ const pages = [
   },
 ];
 
-// const specsPath = path.resolve(__dirname, 'src', 'docs', 'specs');
-// const specs = fs.readdirSync(specsPath);
+const specsPath = path.resolve(__dirname, 'src', 'generated');
+const specs = fs.readdirSync(specsPath);
 
 function entries() {
   let entries = pages.reduce((acc, page) => {
@@ -43,10 +43,10 @@ function entries() {
 
   entries = {
     ...entries,
-    // ...specs.reduce((acc, spec) => {
-    //   acc[spec] = path.resolve(specsPath, spec);
-    //   return acc;
-    // }, {}),
+    ...specs.reduce((acc, spec) => {
+      acc[spec] = path.resolve(specsPath, spec);
+      return acc;
+    }, {}),
   };
 
   return entries;
@@ -61,23 +61,23 @@ function htmlPlugins() {
   }));
 
   htmlPlugins.push(new HtmlWebpackPlugin({
-    template: path.resolve(__dirname, 'src', 'docs', 'index.html'),
+    template: path.resolve(__dirname, 'src', 'docs', 'index.mustache'),
     filename: 'index.html',
     chunks: ['index'],
     scriptLoading: 'module',
     inject: 'body',
   }));
 
-  // htmlPlugins = [
-  //   ...htmlPlugins,
-  //   ...specs.map(spec => new HtmlWebpackPlugin({
-  //     template: path.resolve(__dirname, 'src', 'docs', 'spec-examples-generator', 'spec.html'),
-  //     filename: `${spec}.html`,
-  //     chunks: [spec],
-  //     scriptLoading: 'module',
-  //     title: spec,
-  //   })),
-  // ];
+  htmlPlugins = [
+    ...htmlPlugins,
+    // ...specs.map(spec => new HtmlWebpackPlugin({
+    //   template: path.resolve(__dirname, 'src', 'spec-examples-generator', 'spec.html'),
+    //   filename: `${spec}.html`,
+    //   chunks: [spec],
+    //   scriptLoading: 'module',
+    //   title: spec,
+    // })),
+  ];
 
   return htmlPlugins;
 }
@@ -98,15 +98,15 @@ module.exports = {
       }],
       test: /\.ts?$/,
       exclude: /node_modules/,
-    // }, {
-    //   test: /index\.mustache$/,
-    //   loader: 'mustache-loader',
-    //   options: {
-    //     tiny: true,
-    //     render: {
-    //       specs,
-    //     },
-    //   },
+    }, {
+      test: /index\.mustache$/,
+      loader: 'mustache-loader',
+      options: {
+        tiny: true,
+        render: {
+          specs,
+        },
+      },
     }],
   },
   output: {

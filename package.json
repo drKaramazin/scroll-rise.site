@@ -6,8 +6,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run serve",
     "serve": "webpack serve --mode development",
-    "build:dev": "webpack --mode development",
+    "build:dev": "webpack --mode development --stats-error-details",
     "build": "webpack --mode production",
     "generate:examples-from-specs": "npx ts-node-esm -P src/spec-examples-generator/tsconfig.spec.examples.json src/spec-examples-generator/generate-spec-examples.ts"
   },

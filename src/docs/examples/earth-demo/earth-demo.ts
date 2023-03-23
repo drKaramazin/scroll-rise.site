@@ -8,9 +8,9 @@ import {
   Scene,
   Value,
 } from "scroll-rise";
-// @ts-ignore
+// @ts-ignore Import module
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124/build/three.module.js';
-// @ts-ignore
+// @ts-ignore Import module
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/controls/OrbitControls.js';
 
 // world mesh
