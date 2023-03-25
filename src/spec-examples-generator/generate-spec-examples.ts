@@ -19,7 +19,7 @@ const specs: Array<string> = glob.sync(path.resolve(__dirname, '..', '..', '..',
 
 console.log('Generation...');
 
-const outcomePath = path.join(__dirname, '..', 'specs');
+const outcomePath = path.join(__dirname, '..', 'generated', 'spec-wrappers');
 prepareOutcomeDir(outcomePath);
 
 (global as DocsSpecsGlobalEnv).runnerResult = {

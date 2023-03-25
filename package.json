@@ -10,7 +10,7 @@
     "serve": "webpack serve --mode development",
     "build:dev": "webpack --mode development --stats-error-details",
     "build": "webpack --mode production",
-    "generate:examples-from-specs": "npx ts-node-esm -P src/spec-examples-generator/tsconfig.spec.examples.json src/spec-examples-generator/generate-spec-examples.ts"
+    "generate:spec-examples": "npx ts-node-esm -P src/spec-examples-generator/tsconfig.spec.examples.json src/spec-examples-generator/generate-spec-examples.ts"
   },
   "keywords": [
     "website",

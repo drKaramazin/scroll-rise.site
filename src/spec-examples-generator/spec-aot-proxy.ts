@@ -26,7 +26,7 @@ export function runSpec(outcomePath: string, spec: string) {
         }) + '.ts';
         console.log(colors.green('Generated.') + ` ${description} ${expectation}`);
 
-        const template = fs.readFileSync(path.join(__dirname, 'spec.mustache.ts'),{ encoding:'utf8' });
+        const template = fs.readFileSync(path.join(__dirname, 'spec.ts.mustache'),{ encoding:'utf8' });
         const output = Mustache.render(template, {
           description,
           expectation,
