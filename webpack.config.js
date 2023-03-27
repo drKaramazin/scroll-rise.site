@@ -31,7 +31,7 @@ const pages = [
   },
 ];
 
-const specsPath = path.resolve(__dirname, 'src', 'generated');
+const specsPath = path.resolve(__dirname, 'src', 'generated', 'spec-wrappers');
 const specs = fs.readdirSync(specsPath);
 
 function entries() {
@@ -70,13 +70,13 @@ function htmlPlugins() {
 
   htmlPlugins = [
     ...htmlPlugins,
-    // ...specs.map(spec => new HtmlWebpackPlugin({
-    //   template: path.resolve(__dirname, 'src', 'spec-examples-generator', 'spec.html'),
-    //   filename: `${spec}.html`,
-    //   chunks: [spec],
-    //   scriptLoading: 'module',
-    //   title: spec,
-    // })),
+    ...specs.map(spec => new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'src', 'spec-examples-generator', 'spec.html'),
+      filename: `${spec}.html`,
+      chunks: [spec],
+      scriptLoading: 'module',
+      title: spec,
+    })),
   ];
 
   return htmlPlugins;
@@ -119,7 +119,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: path.resolve(__dirname, 'src', 'docs', 'styles'), to: 'styles' },
-        // { from: path.resolve(__dirname, 'src', 'lib', 'specs', 'styles'), to: 'styles' },
+        { from: path.resolve(__dirname, '..', 'scroll-rise', 'src', 'lib', 'specs', 'styles'), to: 'styles' },
         { from: path.resolve(__dirname, 'src', 'docs', 'assets'), to: 'assets' },
       ],
     }),

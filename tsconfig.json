@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./site/",
     "sourceMap": true,
     "noImplicitAny": false,
@@ -17,10 +18,12 @@
     "strictNullChecks": true
   },
   "include": [
-    "src/**/*"
+    "src/docs",
+    "../scroll-rise/src/lib",
+    "src/spec-examples-generator",
+    "src/generated"
   ],
   "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
+    "node_modules"
   ]
 }
