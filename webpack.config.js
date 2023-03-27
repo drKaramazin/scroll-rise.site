@@ -104,7 +104,13 @@ module.exports = {
       options: {
         tiny: true,
         render: {
-          specs,
+          specs: specs.map(fileName => {
+            const label = fileName.replaceAll('-', ' ');
+            return {
+              fileName,
+              label: label.slice(-3) === '.ts' ? label.slice(0, -3) : label,
+            };
+          }),
         },
       },
     }],
