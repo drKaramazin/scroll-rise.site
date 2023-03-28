@@ -19,7 +19,7 @@
   },
   "include": [
     "src/docs",
-    "../scroll-rise/src/lib",
+    "../scroll-rise/src",
     "src/spec-examples-generator",
     "src/generated"
   ],

@@ -125,7 +125,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: path.resolve(__dirname, 'src', 'docs', 'styles'), to: 'styles' },
-        { from: path.resolve(__dirname, '..', 'scroll-rise', 'src', 'lib', 'specs', 'styles'), to: 'styles' },
+        { from: path.resolve(__dirname, '..', 'scroll-rise', 'src', 'specs', 'styles'), to: 'styles' },
         { from: path.resolve(__dirname, 'src', 'docs', 'assets'), to: 'assets' },
       ],
     }),

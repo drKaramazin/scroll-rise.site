@@ -15,7 +15,7 @@ function prepareOutcomeDir(outcomePath: string) {
   });
 }
 
-const specs: Array<string> = glob.sync(path.resolve(__dirname, '..', '..', '..', 'scroll-rise', 'src', 'lib', 'specs') + '/**/*.spec.ts');
+const specs: Array<string> = glob.sync(path.resolve(__dirname, '..', '..', '..', 'scroll-rise', 'src', 'specs') + '/**/*.spec.ts');
 
 console.log('Generation...');
 
