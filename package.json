@@ -38,7 +38,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "scroll-rise": "^1.6.0",
-    "scroll-rise.colors": "file:../scroll-rise.colors"
+    "scroll-rise": "~1.6.1",
+    "scroll-rise.colors": "~0.0.1"
   }
 }
