@@ -23,12 +23,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout site
-        uses: actions/checkout@v3
       - name: Checkout library
         uses: actions/checkout@v3
         with:
           repository: drKaramazin/scroll-rise
+      - name: Checkout site
+        uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - uses: actions/setup-node@v3
