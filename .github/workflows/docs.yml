@@ -27,8 +27,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: drKaramazin/scroll-rise
+      - name: Temp 1
+        run: pwd
       - name: Checkout site
         uses: actions/checkout@v3
+      - name: Temp 2
+        run: pwd
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - uses: actions/setup-node@v3
