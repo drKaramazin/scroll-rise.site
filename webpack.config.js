@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require("webpack");
 const path = require('path');
 const fs = require('fs');
 
@@ -82,7 +83,7 @@ function htmlPlugins() {
   return htmlPlugins;
 }
 
-module.exports = {
+module.exports = env => ({
   entry: entries(),
   devtool: 'source-map',
   resolve: {
@@ -129,6 +130,9 @@ module.exports = {
         { from: path.resolve(__dirname, 'src', 'docs', 'assets'), to: 'assets' },
       ],
     }),
+    new webpack.DefinePlugin({
+      LIB_PATH: JSON.stringify(env['lib-path']),
+    }),
   ],
   devServer: {
     static: {
@@ -143,4 +147,4 @@ module.exports = {
   experiments: {
     outputModule: true,
   },
-};
+});

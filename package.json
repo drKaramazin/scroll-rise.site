@@ -7,9 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run serve",
-    "serve": "webpack serve --mode development",
-    "build:dev": "webpack --mode development --stats-error-details",
-    "build": "webpack --mode production",
+    "serve": "webpack serve --mode development --env lib-path='..'",
+    "build:dev": "webpack --mode development --stats-error-details --env lib-path='..'",
+    "build": "webpack --mode production --env lib-path='..'",
+    "deploy": "webpack --mode production --env lib-path='.'",
     "generate:spec-examples": "npx ts-node-esm -P src/spec-examples-generator/tsconfig.spec.examples.json src/spec-examples-generator/generate-spec-examples.ts",
     "tsc": "tsc"
   },
