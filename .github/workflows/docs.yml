@@ -23,16 +23,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout site
+        uses: actions/checkout@v3
+      - name: Temp 2
+        run: pwd && ls
       - name: Checkout library
         uses: actions/checkout@v3
         with:
           repository: drKaramazin/scroll-rise
           path: './scroll-rise'
       - name: Temp 1
-        run: pwd && ls
-      - name: Checkout site
-        uses: actions/checkout@v3
-      - name: Temp 2
         run: pwd && ls
       - name: Setup Pages
         uses: actions/configure-pages@v2
