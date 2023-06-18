@@ -15,7 +15,9 @@ function prepareOutcomeDir(outcomePath: string) {
   });
 }
 
-const specs: Array<string> = glob.sync(path.resolve(__dirname, '..', '..', '..', 'scroll-rise', 'src', 'specs') + '/**/*.spec.ts');
+const specsPath = path.resolve(__dirname, '..', '..', '..', 'scroll-rise', 'src', 'specs');
+let specs: Array<string> = glob.sync(specsPath + '/**/*.spec.ts');
+specs = specs.map(spec => path.relative(specsPath, spec));
 
 console.log('Generation...');
 
@@ -30,8 +32,8 @@ prepareOutcomeDir(outcomePath);
 import(path.resolve(__dirname, 'spec-aot-proxy.ts')).then(async proxy => {
   for (const spec of specs) {
     console.log('Spec:', spec);
-    proxy.runSpec(outcomePath, path.basename(spec));
-    await import(spec);
+    proxy.runSpec(outcomePath, spec);
+    await import(path.resolve(specsPath, spec));
   }
 }).then(() => {
   console.log(
