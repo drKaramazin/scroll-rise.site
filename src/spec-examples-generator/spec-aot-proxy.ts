@@ -30,7 +30,7 @@ export function runSpec(outcomePath: string, spec: string) {
         const output = Mustache.render(template, {
           description,
           expectation,
-          spec: spec.slice(0, spec.lastIndexOf('.')),
+          spec,
         });
 
         fs.writeFileSync(path.join(outcomePath, filename), output,{ encoding:'utf8' });
