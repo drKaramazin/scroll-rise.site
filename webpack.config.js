@@ -26,6 +26,11 @@ const pages = [
     ts: 'examples/fixed-actors-scene-demo/fixed-actors-scene-demo.ts',
   },
   {
+    name: 'fas-offset-demo',
+    template: 'examples/fas-offset-demo/fas-offset-demo.html',
+    ts: 'examples/fas-offset-demo/fas-offset-demo.ts',
+  },
+  {
     name: 'sticky-platform-scene-demo',
     template: 'examples/sticky-platform-scene-demo/sticky-platform-scene-demo.html',
     ts: 'examples/sticky-platform-scene-demo/sticky-platform-scene-demo.ts',
