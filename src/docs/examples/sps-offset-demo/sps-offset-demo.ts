@@ -16,7 +16,7 @@ const fourthBlock = new StaticActor(document.getElementById('fourth-block')!);
 const agenda = new StaticActor(document.getElementById('agenda')!);
 
 const offset: Value = (w, h) => -h/2;
-const sceneHeight: Value = (w, h) => (h * 2) + offset(w, h);
+const sceneHeight: Value = (w, h) => h * 2;
 
 const blockWidth: Value = (w, h) => w/4;
 const blockHeight: Value = (w, h) => h/8;
@@ -127,7 +127,6 @@ const scene = new StickyPlatformScene(
   sceneHeight,
   {
     offset,
-    stickyPlatformHeight: (w, h) => h/2,
   }
 );
 

@@ -15,7 +15,7 @@ const thirdBlock = new StaticActor(document.getElementById('third-block')!);
 const fourthBlock = new StaticActor(document.getElementById('fourth-block')!);
 const agenda = new StaticActor(document.getElementById('agenda')!);
 
-const sceneHeight: Value = (w, h) => (h * 2);
+const sceneHeight: Value = (w, h) => h * 2;
 
 const blockWidth: Value = (w, h) => w/4;
 const blockHeight: Value = (w, h) => h/8;

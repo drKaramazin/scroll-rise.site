@@ -5,8 +5,8 @@ import {
   RefActor,
   Motion,
   Util,
-  Scene,
   Value,
+  MotionParams,
 } from "scroll-rise";
 // @ts-ignore Import module
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124/build/three.module.js';
@@ -49,16 +49,11 @@ class EarthMotion extends Motion {
     this.end = data.end;
   }
 
-  make(
-    scrollPosForFrame: number,
-    frame: TimeFrame,
-    element: HTMLElement,
-    scene: Scene<any>,
-  ) {
-    if (scrollPosForFrame > 0) {
+  make(params: MotionParams) {
+    if (params.scrollPosOnScene > 0) {
       const motionL = this.end(Util.clientWidth(), Util.clientHeight()) - this.start(Util.clientWidth(), Util.clientHeight());
-      const d = motionL/frame.length();
-      const angle = this.start(Util.clientWidth(), Util.clientHeight()) + d * (scrollPosForFrame - frame.getStartPos());
+      const d = motionL/params.frame.length();
+      const angle = this.start(Util.clientWidth(), Util.clientHeight()) + d * (params.scrollPosOnScene - params.frame.getStartPos());
       world.rotation.y = angle;
     }
   }
