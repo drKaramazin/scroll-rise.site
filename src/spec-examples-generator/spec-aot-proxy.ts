@@ -8,7 +8,7 @@ const colors = require('colors/safe');
 
 export function runSpec(outcomePath: string, spec: string) {
 
-  global.describe = global.xdescribe = function (description: string, specDefinitions: () => void): void {
+  global.describe = global.xdescribe = global.fdescribe = function (description: string, specDefinitions: () => void): void {
 
     let expectationsForGeneration: Array<string> = [];
 
@@ -18,7 +18,7 @@ export function runSpec(outcomePath: string, spec: string) {
       expectationsForGeneration = expectations;
     };
 
-    global.it = global.xit = function (expectation: string, assertion?: jasmine.ImplementationCallback) {
+    global.it = global.xit = global.fit = function (expectation: string, assertion?: jasmine.ImplementationCallback) {
       (global as DocsSpecsGlobalEnv).runnerResult.total++;
       if (expectationsForGeneration.includes(expectation)) {
         const filename = sanitize(`${description} ${expectation}`, {

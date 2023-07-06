@@ -4,7 +4,7 @@ export function runTest(targetDescription: string, targetExpectation: string) {
 
   (window as DocsSpecsGlobalEnv).skipTesting = true;
 
-  window.describe = window.xdescribe = function (description: string, specDefinitions: () => void): void {
+  window.describe = window.xdescribe = window.fdescribe = function (description: string, specDefinitions: () => void): void {
 
     window.expect = function () {
       return {
@@ -42,7 +42,7 @@ export function runTest(targetDescription: string, targetExpectation: string) {
       }
     }
 
-    window.it = window.xit = function (expectation: string, assertion?: jasmine.ImplementationCallback) {
+    window.it = window.xit = window.fit = function (expectation: string, assertion?: jasmine.ImplementationCallback) {
       surroundedIt(expectation, assertion);
     }
 
