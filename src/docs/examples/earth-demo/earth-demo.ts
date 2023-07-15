@@ -3,10 +3,10 @@ import {
   TimeFrame,
   StickyPlatformScene,
   RefActor,
-  Motion,
   Util,
   Value,
   MotionParams,
+  FramedMotion,
 } from "scroll-rise";
 // @ts-ignore Import module
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124/build/three.module.js';
@@ -21,23 +21,15 @@ initializeThree();
 
 const earth = new RefActor(document.getElementById('earth')!);
 
-const sceneFn: { height: Value } = {
-  height: (w, h) => h,
-};
-
 const scene = new StickyPlatformScene(
   document.getElementById('scene')!,
   (w, h) => h * 2,
-  {
-    // offset,
-    stickyPlatformHeight: sceneFn.height,
-  }
 );
 
 scene.add(earth);
 
-class EarthMotion extends Motion {
-  name = 'EarthMotion';
+class AngleMotion extends FramedMotion {
+  name = 'AngleMotion';
 
   start;
   end;
@@ -49,21 +41,30 @@ class EarthMotion extends Motion {
     this.end = data.end;
   }
 
-  make(params: MotionParams) {
-    if (params.scrollPosOnScene > 0) {
-      const motionL = this.end(Util.clientWidth(), Util.clientHeight()) - this.start(Util.clientWidth(), Util.clientHeight());
-      const d = motionL/params.frame.length();
-      const angle = this.start(Util.clientWidth(), Util.clientHeight()) + d * (params.scrollPosOnScene - params.frame.getStartPos());
-      world.rotation.y = angle;
-    }
+  setAngle(angle: number) {
+    world.rotation.y = angle;
   }
+
+  protected makeEndStep(params: MotionParams): void {
+    this.setAngle(this.end(Util.clientWidth(), Util.clientHeight()));
+  }
+
+  protected makeStartStep(params: MotionParams): void {
+    this.setAngle(this.start(Util.clientWidth(), Util.clientHeight()));
+  }
+
+  protected makeUsualStep(params: MotionParams): void {
+    const length = this.end(Util.clientWidth(), Util.clientHeight()) - this.start(Util.clientWidth(), Util.clientHeight());
+    this.setAngle(this.start(Util.clientWidth(), Util.clientHeight()) + length * params.delta);
+  }
+
 }
 
 earth.addFrames([
-  new TimeFrame(new EarthMotion({
+  new TimeFrame(new AngleMotion({
     start: () => 0,
     end: () => Math.PI * 2,
-  }), () => 0, sceneFn.height),
+  }), () => 0, (w, h) => h),
 ]);
 
 const sr = new ScrollRise(scene);
@@ -100,8 +101,7 @@ function initializeThree() {
 
   // Initialize controls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableZoom = false;
-  controls.enableRotate = false;
+  controls.enabled = false;
 
   // World
   // ----------
@@ -160,7 +160,6 @@ function initializeThree() {
 
     // Render scene
     renderer.render(scene, camera)
-
   }
 
   // Animate
@@ -172,14 +171,13 @@ function initializeThree() {
   // Listen for window resizing
   window.addEventListener('resize', () => {
     // Update camera aspect
-    camera.aspect = window.innerWidth / window.innerHeight
+    camera.aspect = window.innerWidth / window.innerHeight;
 
     // Update camera projection matrix
-    camera.updateProjectionMatrix()
+    camera.updateProjectionMatrix();
 
     // Resize renderer
-    renderer.setSize(window.innerWidth, window.innerHeight)
-
+    renderer.setSize(window.innerWidth, window.innerHeight);
   })
 
 }
