@@ -19,15 +19,6 @@ let world: any;
 // Initialize three
 initializeThree();
 
-const earth = new RefActor(document.getElementById('earth')!);
-
-const scene = new StickyPlatformScene(
-  document.getElementById('scene')!,
-  (w, h) => h * 2,
-);
-
-scene.add(earth);
-
 class AngleMotion extends FramedMotion {
   name = 'AngleMotion';
 
@@ -60,6 +51,15 @@ class AngleMotion extends FramedMotion {
 
 }
 
+const earth = new RefActor(document.getElementById('earth')!);
+
+const scene = new StickyPlatformScene(
+  document.getElementById('scene')!,
+  (w, h) => h * 2,
+);
+
+scene.add(earth);
+
 earth.addFrames([
   new TimeFrame(new AngleMotion({
     start: () => 0,
@@ -67,10 +67,14 @@ earth.addFrames([
   }), () => 0, (w, h) => h),
 ]);
 
-const sr = new ScrollRise(scene);
+const sr = new ScrollRise(scene, { optimizeResizing: true });
 
 function getEarthRadius() {
-  return window.innerWidth < 600 ? 0.5 : 1;
+  return Util.clientWidth() < 600 ? 0.5 : 1;
+}
+
+function cameraAspect() {
+  return Util.clientWidth() / Util.clientHeight();
 }
 
 function initializeThree() {
@@ -82,7 +86,7 @@ function initializeThree() {
   const scene = new THREE.Scene()
 
   // Initialize camera
-  const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 60)
+  const camera = new THREE.PerspectiveCamera(30, cameraAspect(), 0.1, 60)
 
   // Reposition camera
   camera.position.set(6, 0, 0)
@@ -94,7 +98,7 @@ function initializeThree() {
   })
 
   // Set renderer size
-  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setSize(Util.clientWidth(), Util.clientHeight())
 
   // Append renderer to body
   document.getElementById('earth')!.appendChild(renderer.domElement)
@@ -163,7 +167,7 @@ function initializeThree() {
   }
 
   // Animate
-  animate()
+  animate();
 
   // Resize
   // ----------
@@ -171,13 +175,13 @@ function initializeThree() {
   // Listen for window resizing
   window.addEventListener('resize', () => {
     // Update camera aspect
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = cameraAspect();
 
     // Update camera projection matrix
     camera.updateProjectionMatrix();
 
     // Resize renderer
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(Util.clientWidth(), Util.clientHeight());
   })
 
 }
