@@ -1,11 +1,11 @@
 import {
   ScrollRise,
-  FixedActorsScene,
   StaticActor,
   TimeFrame,
   MoveMotion,
   SizeMotion,
   OpacityMotion,
+  FixedActorsScene,
   Value,
 } from "scroll-rise";
 
@@ -15,6 +15,7 @@ const thirdBlock = new StaticActor(document.getElementById('third-block')!);
 const fourthBlock = new StaticActor(document.getElementById('fourth-block')!);
 const agenda = new StaticActor(document.getElementById('agenda')!);
 
+const offset: Value = (w, h) => -h/2;
 const sceneHeight: Value = (w, h) => h * 2;
 
 const blockWidth: Value = (w, h) => w/4;
@@ -23,15 +24,15 @@ const blockHeight: Value = (w, h) => h/8;
 const firstHalfBlockX: Value = (w, h) => w/4 - blockWidth(w, h)/2;
 const secondHalfStartBlockX: Value = (w, h) => w/4 * 3 - blockWidth(w, h)/2;
 const secondHalfEndBlockX: Value = (w, h) => w/2;
-const firstHalfBlockY: Value = (w, h) => h/4 - blockHeight(w, h)/2;
-const secondHalfBlockY: Value = (w, h) => h/4 * 3 - blockHeight(w, h)/2;
+const firstHalfBlockY: Value = (w, h) => h/8 - blockHeight(w, h)/2;
+const secondHalfBlockY: Value = (w, h) => h/8 * 3 - blockHeight(w, h)/2;
 
 const endBlockWidth: Value = (w, h) => w/2 - firstHalfBlockX(w, h);
 
 const hideBlockFrame = new TimeFrame(new OpacityMotion({
   start: () => 1,
   end: () => 0,
-}), (w, h) => 0, (w, h) => h);
+}), (w, h) => 0, (w, h) => h/2);
 
 firstBlock.addFrames([
   new TimeFrame(new MoveMotion({
@@ -39,13 +40,13 @@ firstBlock.addFrames([
     endX: firstHalfBlockX,
     startY: firstHalfBlockY,
     endY: firstHalfBlockY,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   new TimeFrame(new SizeMotion({
     startWidth: blockWidth,
     startHeight: blockHeight,
     endWidth: endBlockWidth,
     endHeight: blockHeight,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   hideBlockFrame,
 ]);
 
@@ -55,13 +56,13 @@ secondBlock.addFrames([
     endX: secondHalfEndBlockX,
     startY: firstHalfBlockY,
     endY: firstHalfBlockY,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   new TimeFrame(new SizeMotion({
     startWidth: blockWidth,
     startHeight: blockHeight,
     endWidth: endBlockWidth,
     endHeight: blockHeight,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   hideBlockFrame,
 ]);
 
@@ -71,13 +72,13 @@ thirdBlock.addFrames([
     endX: firstHalfBlockX,
     startY: secondHalfBlockY,
     endY: secondHalfBlockY,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   new TimeFrame(new SizeMotion({
     startWidth: blockWidth,
     startHeight: blockHeight,
     endWidth: endBlockWidth,
     endHeight: blockHeight,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   hideBlockFrame,
 ]);
 
@@ -87,13 +88,13 @@ fourthBlock.addFrames([
     endX: secondHalfEndBlockX,
     startY: secondHalfBlockY,
     endY: secondHalfBlockY,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   new TimeFrame(new SizeMotion({
     startWidth: blockWidth,
     startHeight: blockHeight,
     endWidth: endBlockWidth,
     endHeight: blockHeight,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   hideBlockFrame,
 ]);
 
@@ -106,24 +107,27 @@ agenda.addFrames([
   new TimeFrame(new MoveMotion({
     startX: (w, h) => w/2 - agendaStartWidth(w, h)/2,
     endX: (w, h) => w/2 - agendaEndWidth(w, h)/2,
-    startY: (w, h) => h/2 - agendaStartHeight(w, h)/2,
-    endY: (w, h) => h/2 - agendaEndHeight(w, h)/2,
-  }), (w, h) => 0, (w, h) => h),
+    startY: (w, h) => h/4 - agendaStartHeight(w, h)/2,
+    endY: (w, h) => h/4 - agendaEndHeight(w, h)/2,
+  }), (w, h) => 0, (w, h) => h/2),
   new TimeFrame(new SizeMotion({
     startWidth: agendaStartWidth,
     startHeight: agendaStartHeight,
     endWidth: agendaEndWidth,
     endHeight: agendaEndHeight,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
   new TimeFrame(new OpacityMotion({
     start: () => 0,
     end: () => 1,
-  }), (w, h) => 0, (w, h) => h),
+  }), (w, h) => 0, (w, h) => h/2),
 ]);
 
 const scene = new FixedActorsScene(
   document.getElementById('scene')!,
   sceneHeight,
+  {
+    offset,
+  }
 );
 
 scene.add(firstBlock);

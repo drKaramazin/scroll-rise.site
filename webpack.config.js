@@ -16,19 +16,24 @@ const pages = [
     ts: 'examples/earth-demo/earth-demo.ts',
   },
   {
-    name: 'sps-simple-demo',
-    template: 'examples/sps-simple-demo/sps-simple-demo.html',
-    ts: 'examples/sps-simple-demo/sps-simple-demo.ts',
+    name: 'sps-demo',
+    template: 'examples/sps-demo/sps-demo.html',
+    ts: 'examples/sps-demo/sps-demo.ts',
   },
   {
-    name: 'fixed-actors-scene-demo',
-    template: 'examples/fixed-actors-scene-demo/fixed-actors-scene-demo.html',
-    ts: 'examples/fixed-actors-scene-demo/fixed-actors-scene-demo.ts',
+    name: 'sps-offset-demo',
+    template: 'examples/sps-offset-demo/sps-offset-demo.html',
+    ts: 'examples/sps-offset-demo/sps-offset-demo.ts',
   },
   {
-    name: 'sticky-platform-scene-demo',
-    template: 'examples/sticky-platform-scene-demo/sticky-platform-scene-demo.html',
-    ts: 'examples/sticky-platform-scene-demo/sticky-platform-scene-demo.ts',
+    name: 'fas-demo',
+    template: 'examples/fas-demo/fas-demo.html',
+    ts: 'examples/fas-demo/fas-demo.ts',
+  },
+  {
+    name: 'fas-offset-demo',
+    template: 'examples/fas-offset-demo/fas-offset-demo.html',
+    ts: 'examples/fas-offset-demo/fas-offset-demo.ts',
   },
 ];
 

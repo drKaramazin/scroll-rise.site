@@ -3,10 +3,10 @@ import {
   TimeFrame,
   StickyPlatformScene,
   RefActor,
-  Motion,
   Util,
-  Scene,
   Value,
+  MotionParams,
+  FramedMotion,
 } from "scroll-rise";
 // @ts-ignore Import module
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124/build/three.module.js';
@@ -19,25 +19,8 @@ let world: any;
 // Initialize three
 initializeThree();
 
-const earth = new RefActor(document.getElementById('earth')!);
-
-const sceneFn: { height: Value } = {
-  height: (w, h) => h,
-};
-
-const scene = new StickyPlatformScene(
-  document.getElementById('scene')!,
-  (w, h) => h * 2,
-  {
-    // offset,
-    stickyPlatformHeight: sceneFn.height,
-  }
-);
-
-scene.add(earth);
-
-class EarthMotion extends Motion {
-  name = 'EarthMotion';
+class AngleMotion extends FramedMotion {
+  name = 'AngleMotion';
 
   start;
   end;
@@ -49,32 +32,49 @@ class EarthMotion extends Motion {
     this.end = data.end;
   }
 
-  make(
-    scrollPosForFrame: number,
-    frame: TimeFrame,
-    element: HTMLElement,
-    scene: Scene<any>,
-  ) {
-    if (scrollPosForFrame > 0) {
-      const motionL = this.end(Util.clientWidth(), Util.clientHeight()) - this.start(Util.clientWidth(), Util.clientHeight());
-      const d = motionL/frame.length();
-      const angle = this.start(Util.clientWidth(), Util.clientHeight()) + d * (scrollPosForFrame - frame.getStartPos());
-      world.rotation.y = angle;
-    }
+  setAngle(angle: number) {
+    world.rotation.y = angle;
   }
+
+  protected makeEndStep(params: MotionParams): void {
+    this.setAngle(this.end(Util.clientWidth(), Util.clientHeight()));
+  }
+
+  protected makeStartStep(params: MotionParams): void {
+    this.setAngle(this.start(Util.clientWidth(), Util.clientHeight()));
+  }
+
+  protected makeUsualStep(params: MotionParams): void {
+    const length = this.end(Util.clientWidth(), Util.clientHeight()) - this.start(Util.clientWidth(), Util.clientHeight());
+    this.setAngle(this.start(Util.clientWidth(), Util.clientHeight()) + length * params.delta);
+  }
+
 }
 
+const earth = new RefActor(document.getElementById('earth')!);
+
+const scene = new StickyPlatformScene(
+  document.getElementById('scene')!,
+  (w, h) => h * 2,
+);
+
+scene.add(earth);
+
 earth.addFrames([
-  new TimeFrame(new EarthMotion({
+  new TimeFrame(new AngleMotion({
     start: () => 0,
     end: () => Math.PI * 2,
-  }), () => 0, sceneFn.height),
+  }), () => 0, (w, h) => h),
 ]);
 
-const sr = new ScrollRise(scene);
+const sr = new ScrollRise(scene, { optimizeResizing: true });
 
 function getEarthRadius() {
-  return window.innerWidth < 600 ? 0.5 : 1;
+  return Util.clientWidth() < 600 ? 0.5 : 1;
+}
+
+function cameraAspect() {
+  return Util.clientWidth() / Util.clientHeight();
 }
 
 function initializeThree() {
@@ -86,7 +86,7 @@ function initializeThree() {
   const scene = new THREE.Scene()
 
   // Initialize camera
-  const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 60)
+  const camera = new THREE.PerspectiveCamera(30, cameraAspect(), 0.1, 60)
 
   // Reposition camera
   camera.position.set(6, 0, 0)
@@ -98,15 +98,14 @@ function initializeThree() {
   })
 
   // Set renderer size
-  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setSize(Util.clientWidth(), Util.clientHeight())
 
   // Append renderer to body
   document.getElementById('earth')!.appendChild(renderer.domElement)
 
   // Initialize controls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableZoom = false;
-  controls.enableRotate = false;
+  controls.enabled = false;
 
   // World
   // ----------
@@ -165,11 +164,10 @@ function initializeThree() {
 
     // Render scene
     renderer.render(scene, camera)
-
   }
 
   // Animate
-  animate()
+  animate();
 
   // Resize
   // ----------
@@ -177,14 +175,13 @@ function initializeThree() {
   // Listen for window resizing
   window.addEventListener('resize', () => {
     // Update camera aspect
-    camera.aspect = window.innerWidth / window.innerHeight
+    camera.aspect = cameraAspect();
 
     // Update camera projection matrix
-    camera.updateProjectionMatrix()
+    camera.updateProjectionMatrix();
 
     // Resize renderer
-    renderer.setSize(window.innerWidth, window.innerHeight)
-
+    renderer.setSize(Util.clientWidth(), Util.clientHeight());
   })
 
 }

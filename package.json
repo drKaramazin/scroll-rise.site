@@ -1,6 +1,6 @@
 {
   "name": "scroll-rise.site",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "The scroll-rise website",
   "main": "index.js",
@@ -39,7 +39,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "scroll-rise": "1.6.3",
-    "scroll-rise.colors": "0.0.1"
+    "scroll-rise": "1.7.0",
+    "scroll-rise.colors": "0.0.2"
   }
 }

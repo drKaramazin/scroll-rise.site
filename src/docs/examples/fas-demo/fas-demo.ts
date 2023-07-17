@@ -5,7 +5,7 @@ import {
   MoveMotion,
   SizeMotion,
   OpacityMotion,
-  StickyPlatformScene,
+  FixedActorsScene,
   Value,
 } from "scroll-rise";
 
@@ -15,8 +15,7 @@ const thirdBlock = new StaticActor(document.getElementById('third-block')!);
 const fourthBlock = new StaticActor(document.getElementById('fourth-block')!);
 const agenda = new StaticActor(document.getElementById('agenda')!);
 
-const offset: Value = (w, h) => -h/2;
-const sceneHeight: Value = (w, h) => (h * 2) + offset(w, h);
+const sceneHeight: Value = (w, h) => h * 2;
 
 const blockWidth: Value = (w, h) => w/4;
 const blockHeight: Value = (w, h) => h/8;
@@ -122,13 +121,9 @@ agenda.addFrames([
   }), (w, h) => 0, (w, h) => h/2),
 ]);
 
-const scene = new StickyPlatformScene(
+const scene = new FixedActorsScene(
   document.getElementById('scene')!,
   sceneHeight,
-  {
-    offset,
-    stickyPlatformHeight: (w, h) => h/2,
-  }
 );
 
 scene.add(firstBlock);
